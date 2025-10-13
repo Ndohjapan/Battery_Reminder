@@ -1,0 +1,3 @@
+# Ignore dst and build folders inside Python_code
+/Python_code/dist/
+/Python_code/build/
