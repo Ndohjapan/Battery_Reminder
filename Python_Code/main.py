@@ -1,6 +1,6 @@
 """
-Verraki Battery Reminder - Main Application
-A professional system tray application by Verraki Partners that monitors laptop battery 
+Andersen Battery Reminder - Main Application
+A professional system tray application by Andersen that monitors laptop battery 
 and provides intelligent charging reminders for optimal battery health.
 
 Features:
@@ -11,9 +11,9 @@ Features:
 - Windows startup integration
 - Configurable battery threshold
 - Start/stop monitoring capability
-- Verraki Partners branding and professional UI
+- Andersen branding and professional UI
 
-Developed by Verraki Partners - Business Solutions for Africa
+Developed by Andersen - Business Solutions for Africa
 """
 
 import sys
@@ -30,8 +30,8 @@ from system_tray import SystemTrayManager
 
 class BatteryReminderApp:
     def __init__(self):
-        """Initialize the Verraki Battery Reminder application"""
-        print("Initializing Verraki Battery Reminder...")
+        """Initialize the Andersen Battery Reminder application"""
+        print("Initializing Andersen Battery Reminder...")
 
         # Initialize managers
         self.config_manager = ConfigManager()

@@ -1,6 +1,6 @@
 """
-System Tray Manager for Verraki Battery Reminder
-Handles the system tray icon and context menu with Verraki branding
+System Tray Manager for Andersen Battery Reminder
+Handles the system tray icon and context menu with Andersen branding
 """
 
 import pystray
@@ -21,11 +21,11 @@ class SystemTrayManager:
         self.running = False
 
     def create_icon_image(self):
-        """Create a Verraki-branded icon image for the system tray"""
-        # Try to load Verraki logo first, fall back to generated icon
+        """Create an Andersen-branded icon image for the system tray"""
+        # Try to load Andersen logo first, fall back to generated icon
         try:
-            # Try different Verraki icon files
-            icon_files = ["verraki_white_bg.png", "verraki_black_bg.png", "verraki_white.png"]
+            # Try different Andersen icon files
+            icon_files = ["andersen_white_bg.png", "andersen_black_bg.png", "andersen_white.png", "verraki_white_bg.png", "verraki_black_bg.png", "verraki_white.png"]
             for icon_file in icon_files:
                 try:
                     image = Image.open(icon_file)
@@ -37,23 +37,23 @@ class SystemTrayManager:
         except:
             pass
         
-        # Fallback: Create Verraki-branded battery icon
+        # Fallback: Create Andersen-branded battery icon
         image = Image.new("RGB", (32, 32), color="white")
         draw = ImageDraw.Draw(image)
         
-        # Verraki orange color
-        verraki_orange = (255, 122, 26)  # #FF7A1A
+        # Andersen red color
+        andersen_red = (135, 24, 32)  # #871820
         
-        # Draw battery outline with Verraki branding
-        draw.rectangle([8, 10, 22, 25], outline=verraki_orange, width=2)
+        # Draw battery outline with Andersen branding
+        draw.rectangle([8, 10, 22, 25], outline=andersen_red, width=2)
         draw.rectangle([45, 28, 50, 42], fill="black")  # Battery tip
 
-        draw.rectangle([22, 12, 26, 18], fill=verraki_orange)  # Battery tip
+        draw.rectangle([22, 12, 26, 18], fill=andersen_red)  # Battery tip
         
         # Draw battery level based on monitoring status
         if self.battery_monitor.is_monitoring():
-            # Verraki orange for active monitoring
-            draw.rectangle([10, 12, 20, 23], fill=verraki_orange)
+            # Andersen red for active monitoring
+            draw.rectangle([10, 12, 20, 23], fill=andersen_red)
         else:
             # Red for inactive
             draw.rectangle([10, 20, 20, 23], fill=(231, 76, 60))
@@ -61,9 +61,9 @@ class SystemTrayManager:
         return image
 
     def create_context_menu(self):
-        """Create the Verraki-branded context menu for the system tray icon"""
+        """Create the Andersen-branded context menu for the system tray icon"""
         return (
-            item("🏢 Open Verraki Battery Reminder", self.show_gui, default=True),
+            item("🏢 Open Andersen Battery Reminder", self.show_gui, default=True),
             item("📊 Battery Status", self.show_battery_status),
             pystray.Menu.SEPARATOR,
             item(
@@ -72,7 +72,7 @@ class SystemTrayManager:
             ),
             pystray.Menu.SEPARATOR,
             item("⚙️ Settings", self.show_gui),
-            item("ℹ️ About Verraki", self.show_about),
+            item("ℹ️ About Andersen", self.show_about),
             item("❌ Exit", self.quit_app),
         )
 
@@ -81,14 +81,14 @@ class SystemTrayManager:
         if self.gui_manager:
             threading.Thread(target=self.gui_manager.show_window, daemon=True).start()
 
-    def show_battery_status(self, icon=None, item=None):
-        """Show current battery status with Verraki branding"""
+    def show_battery_status(self):
+        """Show current battery status with Andersen branding"""
         percent, plugged, _ = self.battery_monitor.get_battery_info()
         if percent is not None:
             status = "Charging" if plugged else "On Battery"
             self.battery_monitor.show_notification(
-                "Verraki Battery Status",
-                f"🔋 Battery: {percent}% ({status})\n📊 Monitoring: {'ON' if self.battery_monitor.is_monitoring() else 'OFF'}\n🏢 Verraki Partners",
+                "Andersen Battery Status",
+                f"🔋 Battery: {percent}% ({status})\n📊 Monitoring: {'ON' if self.battery_monitor.is_monitoring() else 'OFF'}\n🏢 Andersen",
                 duration=5,
             )
         else:

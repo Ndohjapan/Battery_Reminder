@@ -1,6 +1,6 @@
 """
-Battery Monitor for Verraki Battery Reminder
-Handles intelligent battery monitoring and notifications with Verraki branding
+Battery Monitor for Andersen Battery Reminder
+Handles intelligent battery monitoring and notifications with Andersen branding
 """
 
 import os
@@ -23,7 +23,7 @@ class BatteryMonitor:
         self.last_full_notification = 0
         self.last_low_notification = 0
         self.notification_cooldown = 300  # 5 minutes in seconds
-        
+
         # Sound loop control
         self.sound_loop_active = False
         self.sound_thread = None
@@ -50,23 +50,23 @@ class BatteryMonitor:
                 title,
                 message,
                 duration=duration,
-                icon_path="verraki_white_bg.ico" if self._icon_exists() else None,
+                icon_path="andersen_white_bg.ico" if self._icon_exists("andersen_white_bg.ico") else ("verraki_white_bg.ico" if self._icon_exists("verraki_white_bg.ico") else None),
                 threaded=True,
             )
         except Exception as e:
             print(f"Error showing notification: {e}")
 
-    def _icon_exists(self):
+    def _icon_exists(self, filename="verraki_white_bg.ico"):
         """Check if the icon file exists"""
         import os
 
         return os.path.exists(
-            os.path.join(os.path.dirname(__file__), "verraki_white_bg.ico")
+            os.path.join(os.path.dirname(__file__), filename)
         )
 
     def play_alert_sound_loop(self):
-        """Play alert sound in a continuous loop until stopped"""
-        sound_file = os.path.join(os.path.dirname(__file__), "car_crash.wav")
+        """Play battery full alert sound in a continuous loop until stopped"""
+        sound_file = os.path.join(os.path.dirname(__file__), "battery-full.wav")
         
         while self.sound_loop_active and not self.sound_stop_event.is_set():
             try:
@@ -90,15 +90,30 @@ class BatteryMonitor:
                 else:
                     break
     
+    def play_low_battery_sound(self):
+        """Play single low battery alert sound"""
+        sound_file = os.path.join(os.path.dirname(__file__), "battery-low.wav")
+        
+        try:
+            if os.path.exists(sound_file):
+                winsound.PlaySound(sound_file, winsound.SND_FILENAME)
+            else:
+                # Use system sound if custom sound doesn't exist
+                winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS)
+        except Exception as e:
+            print(f"Error playing low battery sound: {e}")
+
     def start_sound_loop(self):
         """Start the continuous sound loop in a separate thread"""
         if not self.sound_loop_active:
             self.sound_loop_active = True
             self.sound_stop_event.clear()
-            self.sound_thread = threading.Thread(target=self.play_alert_sound_loop, daemon=True)
+            self.sound_thread = threading.Thread(
+                target=self.play_alert_sound_loop, daemon=True
+            )
             self.sound_thread.start()
             print("🔊 Started continuous battery alert sound loop")
-    
+
     def stop_sound_loop(self):
         """Stop the continuous sound loop"""
         if self.sound_loop_active:
@@ -126,33 +141,36 @@ class BatteryMonitor:
                 if is_full_and_charging:
                     # Show notification only once when first detected
                     if not was_full_and_charging and (
-                        current_time - self.last_full_notification > self.notification_cooldown
+                        current_time - self.last_full_notification
+                        > self.notification_cooldown
                     ):
                         self.show_notification(
-                            "🔋 Verraki Battery Alert - UNPLUG NOW!",
-                            f"⚡ Battery: {percent}% - FULLY CHARGED!\n🔌 PLEASE UNPLUG YOUR CHARGER NOW!\n🚨 Continuous alert until unplugged\n🏢 Verraki Partners - Protecting your battery",
+                            "🔋 Andersen Battery Alert - UNPLUG NOW!",
+                            f"⚡ Battery: {percent}% - FULLY CHARGED!\n🔌 PLEASE UNPLUG YOUR CHARGER NOW!\n🚨 Continuous alert until unplugged\n🏢 Andersen - Protecting your battery",
                             duration=15,
                         )
                         self.last_full_notification = current_time
-                    
+
                     # Start continuous sound loop if not already running
                     if not self.sound_loop_active:
                         self.start_sound_loop()
-                
+
                 else:
                     # Stop sound loop when no longer full+charging
                     if self.sound_loop_active:
                         self.stop_sound_loop()
-                    
+
                     # Handle low battery while not charging
                     if percent <= threshold and not plugged:
                         if (
                             current_time - self.last_low_notification
                             > self.notification_cooldown
                         ):
+                            # Play low battery sound
+                            self.play_low_battery_sound()
                             self.show_notification(
-                                "🔋 Verraki Charging Reminder",
-                                f"⚠️ Battery: {percent}% - Time to charge!\n🔌 Please plug in your charger\n🏢 Verraki Partners keeps you productive",
+                                "🔋 Andersen Charging Reminder",
+                                f"⚠️ Battery: {percent}% - Time to charge!\n🔌 Please plug in your charger\n🏢 Andersen keeps you productive",
                                 duration=10,
                             )
                             self.last_low_notification = current_time
@@ -181,10 +199,10 @@ class BatteryMonitor:
         self.monitor_thread = threading.Thread(target=self.monitor_battery, daemon=True)
         self.monitor_thread.start()
 
-        # Show initial Verraki notification
+        # Show initial Andersen notification
         self.show_notification(
-            "🔋 Verraki Battery Reminder",
-            "✅ Intelligent monitoring activated!\n📱 Running in background\n🏢 Verraki Partners - Your productivity partner",
+            "🔋 Andersen Battery Reminder",
+            "✅ Intelligent monitoring activated!\n📱 Running in background\n🏢 Andersen - Your productivity partner",
             duration=5,
         )
 
@@ -198,15 +216,15 @@ class BatteryMonitor:
         self.monitoring = False
         self.stop_event.set()
         self.config_manager.set_monitoring_active(False)
-        
+
         # Stop any active sound loop
         self.stop_sound_loop()
 
         # Show stop notification
         self.show_notification(
-            "🔋 Verraki Battery Reminder", 
-            "⏹️ Monitoring stopped\n🏢 Verraki Partners - Always here when you need us", 
-            duration=3
+            "🔋 Andersen Battery Reminder",
+            "⏹️ Monitoring stopped\n🏢 Andersen - Always here when you need us",
+            duration=3,
         )
 
         return True

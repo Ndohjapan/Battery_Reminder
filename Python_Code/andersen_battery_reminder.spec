@@ -1,23 +1,15 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 block_cipher = None
+
 
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[
-        ('verraki_white_bg.ico', '.'),
-        ('verraki_black_bg.ico', '.'),
-        ('battery-full.wav', '.'),
-        ('battery-low.wav', '.'),
-    ],
-    hiddenimports=[
-        'pystray._win32',
-        'win10toast',
-        'psutil',
-        'PIL._tkinter_finder'
-    ],
+    datas=[('battery-full.wav', '.'), ('battery-low.wav', '.'), ('*.ico', '.'), ('*.png', '.')],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -27,7 +19,6 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
-
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(
@@ -37,18 +28,18 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Verraki_Battery_Reminder',
+    name='andersen_battery_reminder',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,  # Set to False for windowed application
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='verraki_white_bg.ico',  # Use Verraki logo as application icon
+    icon=['verraki_white_bg.ico'],
 )

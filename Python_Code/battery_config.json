@@ -1,5 +1,5 @@
 {
     "charge_threshold": 60,
-    "startup_enabled": true,
-    "monitoring_active": true
+    "startup_enabled": false,
+    "monitoring_active": false
 }

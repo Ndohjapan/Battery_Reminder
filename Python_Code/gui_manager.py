@@ -1,6 +1,6 @@
 """
-GUI Manager for Verraki Battery Reminder
-Handles the main configuration window with Verraki Partners branding
+GUI Manager for Andersen Battery Reminder
+Handles the main configuration window with Andersen branding
 """
 
 import tkinter as tk
@@ -50,11 +50,11 @@ class GUIManager:
         self.root.mainloop()
 
     def setup_window(self):
-        """Setup window properties with Verraki branding"""
-        self.root.title("Verraki Battery Reminder - Settings")
+        """Setup window properties with Andersen branding"""
+        self.root.title("Andersen Battery Reminder - Settings")
         
-        # Try to use Verraki icon, fall back to original if needed
-        icon_files = ["verraki_white_bg.ico", "verraki_black_bg.ico"]
+        # Try to use Andersen icon, fall back to original if needed
+        icon_files = ["andersen_white_bg.ico", "andersen_black_bg.ico", "verraki_white_bg.ico", "verraki_black_bg.ico"]
         for icon_file in icon_files:
             try:
                 self.root.wm_iconbitmap(icon_file)
@@ -65,19 +65,19 @@ class GUIManager:
         self.root.geometry("550x450")
         self.root.resizable(False, False)
         
-        # Verraki brand colors - Orange and professional styling
+        # Andersen brand colors - Red and professional styling
         self.root.configure(bg='#f8f9fa')
 
         # Center the window
         self.root.eval("tk::PlaceWindow . center")
 
     def create_widgets(self):
-        """Create all GUI widgets with Verraki branding"""
-        # Verraki brand colors
-        verraki_orange = '#FF7A1A'  # Verraki orange
-        verraki_dark = '#2c3e50'    # Dark text
-        verraki_bg = '#ffffff'      # Clean white background
-        verraki_light_bg = '#f8f9fa'  # Light background
+        """Create all GUI widgets with Andersen branding"""
+        # Andersen brand colors
+        andersen_red = '#871820'     # Andersen red
+        andersen_dark = '#2c3e50'    # Dark text
+        andersen_bg = '#ffffff'      # Clean white background
+        andersen_light_bg = '#f8f9fa'  # Light background
         
         # Professional fonts
         title_font = font.Font(weight="bold", size=14, family="Segoe UI")
@@ -85,15 +85,15 @@ class GUIManager:
         label_font = font.Font(size=10, family="Segoe UI")
         
         # Verraki Header with Logo
-        header_frame = Frame(self.root, bg=verraki_orange, height=60)
+        header_frame = Frame(self.root, bg=andersen_red, height=60)
         header_frame.pack(fill="x", padx=0, pady=0)
         header_frame.pack_propagate(False)
         
         header_title = Label(
             header_frame,
-            text="VERRAKI BATTERY REMINDER",
+            text="ANDERSEN BATTERY REMINDER",
             font=font.Font(weight="bold", size=16, family="Segoe UI"),
-            bg=verraki_orange,
+            bg=andersen_red,
             fg="white"
         )
         header_title.pack(pady=15)
@@ -102,7 +102,7 @@ class GUIManager:
             header_frame,
             text="Business Solutions for Africa",
             font=font.Font(size=9, family="Segoe UI"),
-            bg=verraki_orange,
+            bg=andersen_red,
             fg="white"
         )
         tagline.pack(pady=(0, 5))
@@ -111,8 +111,8 @@ class GUIManager:
         main_frame = LabelFrame(
             self.root,
             text="Battery Management Configuration",
-            bg=verraki_bg,
-            fg=verraki_dark,
+            bg=andersen_bg,
+            fg=andersen_dark,
             font=main_font,
             relief="flat",
             bd=2
@@ -120,15 +120,15 @@ class GUIManager:
         main_frame.pack(fill="both", expand=True, padx=15, pady=15)
 
         # Status display with Verraki styling
-        status_frame = Frame(main_frame, bg=verraki_bg, relief="ridge", bd=1)
+        status_frame = Frame(main_frame, bg=andersen_bg, relief="ridge", bd=1)
         status_frame.pack(fill="x", padx=15, pady=10)
 
         status_label = Label(
             status_frame, 
             text="📊 Current Status:", 
             font=main_font, 
-            bg=verraki_bg,
-            fg=verraki_dark
+            bg=andersen_bg,
+            fg=andersen_dark
         )
         status_label.pack(anchor="w", padx=10, pady=(10, 5))
 
@@ -136,21 +136,21 @@ class GUIManager:
             status_frame,
             text=self.battery_monitor.get_status_text(),
             font=label_font,
-            bg=verraki_bg,
-            fg=verraki_orange if self.battery_monitor.is_monitoring() else "#e74c3c",
+            bg=andersen_bg,
+            fg=andersen_red if self.battery_monitor.is_monitoring() else "#e74c3c",
         )
         self.status_text.pack(anchor="w", padx=25, pady=(0, 10))
 
         # Threshold setting with improved styling
-        threshold_frame = Frame(main_frame, bg=verraki_bg)
+        threshold_frame = Frame(main_frame, bg=andersen_bg)
         threshold_frame.pack(fill="x", padx=15, pady=10)
 
         threshold_label = Label(
             threshold_frame,
             text="⚡ Charge Reminder Threshold (%):",
             font=main_font,
-            bg=verraki_bg,
-            fg=verraki_dark
+            bg=andersen_bg,
+            fg=andersen_dark
         )
         threshold_label.pack(anchor="w", pady=(0, 5))
 
@@ -161,10 +161,10 @@ class GUIManager:
             width=10,
             relief="solid",
             bg="white",
-            fg=verraki_dark,
+            fg=andersen_dark,
             bd=1,
-            highlightbackground=verraki_orange,
-            highlightcolor=verraki_orange,
+            highlightbackground=andersen_red,
+            highlightcolor=andersen_red,
             highlightthickness=1
         )
         threshold_entry.pack(anchor="w", padx=0, pady=5)
@@ -174,17 +174,17 @@ class GUIManager:
             main_frame,
             text="🚀 Start with Windows",
             variable=self.startup_var,
-            bg=verraki_bg,
-            fg=verraki_dark,
+            bg=andersen_bg,
+            fg=andersen_dark,
             font=label_font,
-            activebackground=verraki_light_bg,
-            selectcolor=verraki_orange,
+            activebackground=andersen_light_bg,
+            selectcolor=andersen_red,
             command=self.on_startup_toggle,
         )
         startup_check.pack(anchor="w", padx=15, pady=10)
 
         # Monitoring toggle with professional styling
-        monitoring_frame = Frame(main_frame, bg=verraki_bg)
+        monitoring_frame = Frame(main_frame, bg=andersen_bg)
         monitoring_frame.pack(fill="x", padx=15, pady=20)
 
         if self.battery_monitor.is_monitoring():
@@ -193,7 +193,7 @@ class GUIManager:
             monitor_btn_fg = "white"
         else:
             monitor_btn_text = "▶ Start Monitoring"
-            monitor_btn_color = verraki_orange
+            monitor_btn_color = andersen_red
             monitor_btn_fg = "white"
 
         self.monitor_btn = Button(
@@ -246,12 +246,12 @@ class GUIManager:
         )
         about_btn.pack(side=RIGHT, padx=(0, 0))
 
-        # Instructions with Verraki styling
+        # Instructions with Andersen styling
         instructions_frame = LabelFrame(
             main_frame, 
-            text="📋 How to Use Verraki Battery Reminder", 
-            bg=verraki_bg, 
-            fg=verraki_dark,
+            text="📋 How to Use Andersen Battery Reminder", 
+            bg=andersen_bg, 
+            fg=andersen_dark,
             font=main_font,
             relief="flat",
             bd=1
@@ -261,8 +261,8 @@ class GUIManager:
         instructions_text = Text(
             instructions_frame,
             height=6,
-            bg=verraki_light_bg,
-            fg=verraki_dark,
+            bg=andersen_light_bg,
+            fg=andersen_dark,
             font=("Segoe UI", 9),
             wrap=WORD,
             state=DISABLED,
@@ -376,17 +376,17 @@ class GUIManager:
             self.create_main_window()
 
     def show_about(self):
-        """Show Verraki about dialog"""
+        """Show Andersen about dialog"""
         try:
-            from verraki_about import VerrakiAboutDialog
-            about_dialog = VerrakiAboutDialog()
+            from andersen_about import AndersenAboutDialog
+            about_dialog = AndersenAboutDialog()
             about_dialog.show_about()
         except ImportError:
             # Fallback to basic messagebox if about dialog isn't available
             messagebox.showinfo(
-                "About Verraki Battery Reminder",
-                "🏢 Verraki Battery Reminder\n\n"
-                "Developed by Verraki Partners\n"
+                "About Andersen Battery Reminder",
+                "🏢 Andersen Battery Reminder\n\n"
+                "Developed by Andersen\n"
                 "Business Solutions for Africa\n\n"
                 "🔋 Intelligent Battery Management\n"
                 "⚡ Optimizing productivity across Africa\n\n"

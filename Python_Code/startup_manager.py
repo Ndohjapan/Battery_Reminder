@@ -1,6 +1,6 @@
 """
-Startup Manager for Verraki Battery Reminder
-Handles Windows startup registry operations with Verraki branding
+Startup Manager for Andersen Battery Reminder
+Handles Windows startup registry operations with Andersen branding
 """
 
 import os
@@ -10,7 +10,7 @@ import winreg
 
 class StartupManager:
     def __init__(self):
-        self.app_name = "Verraki_Battery_Reminder"
+        self.app_name = "Andersen_Battery_Reminder"
         self.registry_key = r"Software\Microsoft\Windows\CurrentVersion\Run"
 
     def get_app_path(self):
